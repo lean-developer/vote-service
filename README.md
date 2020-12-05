@@ -57,7 +57,7 @@ https://github.com/lean-developer/vote-service
 
 # initial 
 $ heroku login
-$ heroku git:remote -a vote-service
+$ heroku git:remote -a icl-vote-service
 
 # heroku deployment
 $ git push heroku master

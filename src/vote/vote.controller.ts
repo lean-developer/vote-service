@@ -14,6 +14,11 @@ export class VoteController {
         return this.voteService.findAll();
     }
 
+    @Get(':id')
+    async getVote(@Param('id') id: number): Promise<Vote> {
+        return this.voteService.find(id);
+    }
+
     @Post()
     async createVote(@Query('name') name: string): Promise<Vote> {
         return this.voteService.create(name);

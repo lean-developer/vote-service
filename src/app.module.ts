@@ -2,6 +2,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module, HttpModule } from '@nestjs/common';
 import { VoteModule } from './vote/vote.module';
 import { Vote } from './vote/vote.entity';
+// tslint:disable-next-line: no-var-requires
 const dotenv = require('dotenv').config();
 
 @Module({

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany, BeforeUpdate, BeforeInsert } from 'typeorm';
 
 @Entity('vote')
 export class Vote {
@@ -7,4 +7,20 @@ export class Vote {
 
     @Column({ length: 100 })
     name: string;
+    
+    @Column('timestamp')
+    created: Date;
+
+    @Column('timestamp')
+    modified: Date;
+
+    @BeforeUpdate()
+    modifiedTimestamp() {
+        this.modified = new Date();
+    }
+
+    @BeforeInsert()
+    createdTimestamp() {
+        this.created = new Date();
+    }
 }

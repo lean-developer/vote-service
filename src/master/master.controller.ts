@@ -19,9 +19,14 @@ export class MasterController {
         return this.masterService.find(id);
     }
 
+    @Get('/uid/:uid')
+    async getMasterByUid(@Param('uid') uid: string): Promise<Master> {
+        return this.masterService.findByUid(uid);
+    }
+
     @Post()
-    async createMaster(@Query('name') name: string): Promise<Master> {
-        return this.masterService.create(name);
+    async createMaster(@Query('name') name: string, @Query('uid') uid: string): Promise<Master> {
+        return this.masterService.create(name, uid);
     }
 
     @Patch()

@@ -20,9 +20,19 @@ export class MasterService {
         return await this.masterRepository.findOne(id, ({ relations: ['members', 'votes'] }));
     }
 
-    async create(name: string): Promise<Master> {
+    async findByUid(uid: string): Promise<Master> {
+        return await this.masterRepository
+            .createQueryBuilder('master')
+            .leftJoinAndSelect('master.members', 'members')
+            .leftJoin('master.votes', 'votes')
+            .where('master.uid = :uid', { uid: uid})
+            .getOne()
+    }
+
+    async create(name: string, uid: string): Promise<Master> {
         const master: Master = new Master();
         master.name = name;
+        master.uid = uid;
         return await this.masterRepository.save(master);
     }
 

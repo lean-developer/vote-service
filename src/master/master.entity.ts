@@ -10,6 +10,9 @@ export class Master {
     @Column({ length: 100 })
     name: string;
 
+    @Column({ length: 100 })
+    uid: string;
+
     @OneToMany(type => Member, member => member.master)
     members: Member[];
 

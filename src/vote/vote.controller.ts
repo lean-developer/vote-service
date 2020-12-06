@@ -24,6 +24,11 @@ export class VoteController {
         return this.voteService.create(name);
     }
 
+    @Post('/master/:masterId')
+    async createVoteForMaster(@Param('masterId') masterId: number, @Query('name') name: string): Promise<Vote> {
+        return this.voteService.createForMaster(masterId, name);
+    }
+
     @Patch()
     async updateVote(@Body() vote: Vote): Promise<Vote> {
         return this.voteService.update(vote)

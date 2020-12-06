@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Member } from "src/member/member.entity";
+import { Vote } from "src/vote/vote.entity";
 
 @Entity('master')
 export class Master {
@@ -11,4 +12,7 @@ export class Master {
 
     @OneToMany(type => Member, member => member.master)
     members: Member[];
+
+    @OneToMany(type => Vote, vote => vote.master)
+    votes: Vote[];
 }

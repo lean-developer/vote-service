@@ -13,11 +13,11 @@ export class MasterService {
     }
 
     async findAll(): Promise<Master[]> {
-        return await this.masterRepository.find({ relations: ['members'] });
+        return await this.masterRepository.find({ relations: ['members', 'votes'] });
     }
 
     async find(id: number): Promise<Master> {
-        return await this.masterRepository.findOne(id, ({ relations: ['members'] }));
+        return await this.masterRepository.findOne(id, ({ relations: ['members', 'votes'] }));
     }
 
     async create(name: string): Promise<Master> {

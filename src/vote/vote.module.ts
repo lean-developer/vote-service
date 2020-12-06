@@ -5,11 +5,13 @@ import { VoteService } from './vote.service';
 import { VoteController } from './vote.controller';
 import { MemberVoteService } from './memberVote.service';
 import { MemberVote } from './memberVote.entity';
+import { MasterModule } from 'src/master/master.module';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([Vote]),
         TypeOrmModule.forFeature([MemberVote]),
+        MasterModule
     ],
     providers: [
         VoteService,

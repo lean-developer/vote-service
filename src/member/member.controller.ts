@@ -44,7 +44,7 @@ export class MemberController {
         mv.member = member;
         mv.vote = vote;
         mv.points = voting.points;
-        mv.notiz = voting.notiz;
+        mv.note = voting.note;
        return await this.memberVoteService.saveMemberVote(mv);
     }
 

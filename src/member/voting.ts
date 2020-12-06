@@ -1,4 +1,4 @@
 export class Voting {
-    points: number;
-    notiz: string;
+    points: string;
+    note: string;
 }

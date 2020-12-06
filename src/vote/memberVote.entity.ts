@@ -11,8 +11,8 @@ export class MemberVote {
     vote: Vote;
 
     @Column()
-    points: number;
+    points: string;
 
     @Column({ length: 500 })
-    notiz: string;
+    note: string;
 }

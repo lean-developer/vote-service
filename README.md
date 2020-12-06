@@ -62,3 +62,7 @@ $ heroku git:remote -a icl-vote-service
 # heroku deployment
 $ git push heroku master
 $ heroku logs --tail
+
+
+# github access denied
+https://stackoverflow.com/questions/50487708/visual-studio-remote-http-basic-access-denied-error-encountered-while-clonin#:~:text=Below%20steps%20worked%20for%20me,%26%20%22Remove%20from%20vault%22.&text=You%20need%20to%20provide%20Gitlab%20username%20and%20password%20in%20your%20url. 

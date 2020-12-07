@@ -39,6 +39,11 @@ export class MemberController {
         }
     }
 
+    @Delete(':memberId/master/:masterId')
+    async deleteMemberOfMaster(@Param('memberId') memberId: number, @Param('masterId') masterId: number): Promise<DeleteResult> {
+        return await this.memberService.deleteOfMaster(memberId);
+    }
+
     @Post(':memberId/vote/:voteId')
     async saveMemberVotePoints(@Param('memberId') memberId: number, @Param('voteId') voteId: number, @Body() voting: Voting): Promise<MemberVote> {
         const member: Member = await this.memberService.find(memberId);

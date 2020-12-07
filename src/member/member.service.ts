@@ -23,6 +23,15 @@ export class MemberService {
         return await this.memberRepository.findOne(id);
     }
 
+    async deleteOfMaster(memberId: number): Promise<DeleteResult> {
+        // 1) master des members löschen
+        const member: Member = await this.find(memberId);
+        member.master = null;
+        await this.memberRepository.save(member);
+        // 2) member löschen
+        return await this.memberRepository.delete(member);
+    }
+
     async findByName(masterId: number, name: string): Promise<number> {
         return await this.memberRepository
             .createQueryBuilder('member')

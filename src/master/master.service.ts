@@ -24,7 +24,7 @@ export class MasterService {
         return await this.masterRepository
             .createQueryBuilder('master')
             .leftJoinAndSelect('master.members', 'members')
-            .leftJoin('master.votes', 'votes')
+            .leftJoinAndSelect('master.votes', 'votes')
             .where('master.uid = :uid', { uid: uid})
             .getOne()
     }

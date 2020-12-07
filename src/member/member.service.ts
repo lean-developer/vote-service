@@ -23,6 +23,15 @@ export class MemberService {
         return await this.memberRepository.findOne(id);
     }
 
+    async findByName(masterId: number, name: string): Promise<number> {
+        return await this.memberRepository
+            .createQueryBuilder('member')
+            .leftJoin('member.master', 'master')
+            .where('master.id = :masterId', { masterId: masterId})
+            .andWhere('member.name LIKE :name', { name: name })
+            .getCount()
+    }
+
     async create(masterId: number, name: string): Promise<Member> {
         const master: Master = await this.masterService.find(masterId);
         const member: Member = new Member();

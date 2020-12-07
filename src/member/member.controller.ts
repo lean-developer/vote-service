@@ -33,7 +33,10 @@ export class MemberController {
 
     @Post('/master/:masterId')
     async createMemberOfMaster(@Param('masterId') masterId: number, @Query('name') name: string): Promise<Member> {
-        return this.memberService.create(masterId, name);
+        const memberExists = await this.memberService.findByName(masterId, name);
+        if (memberExists <= 0) {
+            return this.memberService.create(masterId, name);
+        }
     }
 
     @Post(':memberId/vote/:voteId')

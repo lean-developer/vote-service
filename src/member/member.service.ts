@@ -46,6 +46,7 @@ export class MemberService {
         const member: Member = new Member();
         member.master = master;
         member.name = name;
+        member.pin = this.getRandomIntInclusive(1000, 9999);
         return await this.memberRepository.save(member);
     }
 
@@ -56,4 +57,10 @@ export class MemberService {
     async delete(id: number): Promise<DeleteResult> {
         return await this.memberRepository.delete(id);
     }
+
+    private getRandomIntInclusive(min: number, max: number): number {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min; 
+      } 
 }

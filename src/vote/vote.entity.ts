@@ -11,15 +11,19 @@ export class Vote {
     name: string;
 
     /**
+     * leer (
+     *      - Member sehen Vote nicht
+     *      - Master kann Vote öffnen -> open)
      * open (
      *      - Members sehen Vote
-     *      - Master kann Vote zum Schätzen freigeben -> running)
+     *      - Master kann Vote zum Schätzen freigeben -> running
+     *      - Master kann Vote wieder schließen -> leer)
      * running (
      *      - Vote kann geschätzt werden
      *      - nur Master sieht alle Schätzungen
      *      - Members sehen ob die anderen Members geschätzt haben, aber nicht WIE sie geschätzt haben
-     *      - Master kann Vote abeschließen -> complete)
-     * complete (
+     *      - Master kann Vote abeschließen -> done)
+     * done (
      *      - Schätzung ist vorbei
      *      - Master kann Vote wieder aufmachen -> running
      *      - die Members könne ihre Schätzung nicht mehr ändern

@@ -13,6 +13,9 @@ export class Member {
     @Column()
     pin: number;
 
+    @Column({ length: 100 })
+    key: string;
+
     @ManyToOne( type => Master, master => master.members)
     master: Master;
 

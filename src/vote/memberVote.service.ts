@@ -40,7 +40,8 @@ export class MemberVoteService {
         let result: MemberVoteResult = new MemberVoteResult();
         result.memberVotes = memberVotes;
         result.vote = vote;
-        result.referencePoints = this.getReferencePoints(memberVotes);
+        // result.referencePoints = this.getReferencePoints(memberVotes);
+        result.referencePoints = "20";
         return result;
     }
 

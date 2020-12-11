@@ -7,6 +7,7 @@ import { MemberVoteService } from "src/vote/memberVote.service";
 import { Voting } from "./voting";
 import { Vote } from "src/vote/vote.entity";
 import { VoteService } from "src/vote/vote.service";
+import { MemberVoteResult } from "src/vote/memberVoteResult";
 
 @Controller('member')
 export class MemberController {
@@ -26,9 +27,14 @@ export class MemberController {
         return this.memberService.find(id);
     }
 
-    @Get(':id/votes')
-    async getVotes(@Param('id') id: number): Promise<MemberVote[]> {
-        return this.memberVoteService.findVotesByMember(id);
+    @Get(':memberId/membervote')
+    async getMemberVotesByMember(@Param('memberId') memberId: number): Promise<MemberVote[]> {
+        return this.memberVoteService.findMemberVotesByMember(memberId);
+    }
+
+    @Get('/membervote/:voteId')
+    async getMemberVotesByVote(@Param('voteId') voteId: number): Promise<MemberVoteResult> {
+        return this.memberVoteService.findMemberVotesByVote(voteId);
     }
 
     @Post('/master/:masterId')

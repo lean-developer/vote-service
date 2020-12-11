@@ -2,7 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { VoteService } from "./vote.service";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Vote } from "./vote.entity";
-import { Repository } from "typeorm";
+import { DeleteResult, Repository } from "typeorm";
 import { MemberVote } from "./memberVote.entity";
 import { MemberVoteResult } from "./memberVoteResult";
 
@@ -29,7 +29,7 @@ export class MemberVoteService {
             .getMany();
     }
 
-    async findMemberVotesByVote(voteId: number): Promise<MemberVoteResult> {
+    async findMemberVotesResultByVote(voteId: number): Promise<MemberVoteResult> {
         const vote: Vote = await this.voteService.find(voteId);
         const memberVotes: MemberVote[] = await this.memberVoteRepository
             .createQueryBuilder('membervote')
@@ -40,22 +40,31 @@ export class MemberVoteService {
         let result: MemberVoteResult = new MemberVoteResult();
         result.memberVotes = memberVotes;
         result.vote = vote;
-        result.referencePoints = this.getReferencePoints();
+        result.referencePoints = this.getReferencePoints(memberVotes);
         return result;
     }
 
-    private getReferencePoints(): string {
+    private getReferencePoints(memberVotes: MemberVote[]): string {
         // TODO
-        return '100';
+        /* StoryPoints mit dem höchsten Vorkommen empfehlen; gibt es mehrere mit dem höchsten Vorkommen: den höchsten Wert nehmen! */
+        let sortedVotes: MemberVote[] = memberVotes.sort((a, b) => (+a.points > +b.points) ? 1 : ((+a.points < +b.points) ? -1 : 0))
+        return sortedVotes[0].points;
     }
 
-    async findMembersByVote(voteId: number): Promise<MemberVote[]> {
+    async findMemberVotesByVote(voteId: number): Promise<MemberVote[]> {
         return await this.memberVoteRepository
             .createQueryBuilder('membervote')
             .leftJoinAndSelect('membervote.member', 'member')
             .leftJoin('membervote.vote', 'vote')
             .where('vote.id = :id', { id: voteId})
             .getMany();
+    }
+
+    async deleteMemberVotesByVote(voteId: number): Promise<void> {
+        const memberVotes: MemberVote[] = await this.findMemberVotesByVote(voteId);
+        for (let mv of memberVotes) {
+            this.memberVoteRepository.delete(mv);
+        }
     }
 
     async saveMemberVote(memberVote: MemberVote): Promise<MemberVote> {

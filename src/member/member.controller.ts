@@ -33,8 +33,13 @@ export class MemberController {
     }
 
     @Get('/membervote/:voteId')
-    async getMemberVotesByVote(@Param('voteId') voteId: number): Promise<MemberVoteResult> {
-        return this.memberVoteService.findMemberVotesByVote(voteId);
+    async getMemberVotesResultByVote(@Param('voteId') voteId: number): Promise<MemberVoteResult> {
+        return this.memberVoteService.findMemberVotesResultByVote(voteId);
+    }
+
+    @Delete('/membervote/:voteId')
+    async deleteMemberVotesByVote(@Param('voteId') voteId: number): Promise<void> {
+        return this.memberVoteService.deleteMemberVotesByVote(voteId);
     }
 
     @Post('/master/:masterId')

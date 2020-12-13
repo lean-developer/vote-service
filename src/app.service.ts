@@ -52,4 +52,14 @@ export class AppService implements OnGatewayConnection, OnGatewayDisconnect {
     async onMemberVotingEnd(client, currentMember, currentVote) {
       client.broadcast.emit('memberVotingEnd', currentMember, currentVote);
     }
+
+    @SubscribeMessage('memberLogin')
+    async onMemberLogin(client, currentMember) {
+      client.broadcast.emit('memberLogin', currentMember);
+    }
+
+    @SubscribeMessage('memberLogout')
+    async onMemberLogout(client, currentMember) {
+      client.broadcast.emit('memberLogout', currentMember);
+    }
 }

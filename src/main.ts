@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-async function bootstrap() {
+async function bootstrap2() {
   const whitelist = ['http://localhost:8080', 'https://vote-alpha.vercel.app'];
   const app = await NestFactory.create(AppModule);
   app.enableCors({
@@ -16,6 +16,16 @@ async function bootstrap() {
     // TODO: methods: "GET,PUT,PATCH,POST,DELETE,UPDATE,OPTIONS",
     credentials: true,
   });
+  try {
+    await app.listen(process.env.PORT || 3200);
+  }
+  catch (e) {
+    console.error(e);
+  }
+}
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.enableCors();
   await app.listen(process.env.PORT || 3200);
 }
 bootstrap();

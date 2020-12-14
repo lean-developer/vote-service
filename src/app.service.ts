@@ -39,8 +39,8 @@ export class AppService implements OnGatewayConnection, OnGatewayDisconnect {
  
      /** Message, wenn Member eine Schätzung speichert */
      @SubscribeMessage('memberVoteChanged')
-     async onMemberVoteChanged(client, currentMember, currentVote) {
-       client.broadcast.emit('memberVoteChanged', currentMember, currentVote);
+     async onMemberVoteChanged(client, currentMember, currentVote, newPoints) {
+       client.broadcast.emit('memberVoteChanged', currentMember, currentVote, newPoints);
      }
  
      @SubscribeMessage('memberVotingStart')

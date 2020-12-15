@@ -8,6 +8,7 @@ import { MasterModule } from './master/master.module';
 import { MemberModule } from './member/member.module';
 import { MemberVote } from './vote/memberVote.entity';
 import { AppService } from './app.service';
+import { SharedModule } from './shared/shared.module';
 // tslint:disable-next-line: no-var-requires
 const dotenv = require('dotenv').config();
 
@@ -27,6 +28,7 @@ const dotenv = require('dotenv').config();
     MasterModule,
     MemberModule,
     HttpModule,
+    SharedModule,
   ],
   providers: [
     AppService,

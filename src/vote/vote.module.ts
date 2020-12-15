@@ -6,12 +6,13 @@ import { VoteController } from './vote.controller';
 import { MemberVoteService } from './memberVote.service';
 import { MemberVote } from './memberVote.entity';
 import { MasterModule } from 'src/master/master.module';
+import { SharedModule } from 'src/shared/shared.module';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([Vote]),
         TypeOrmModule.forFeature([MemberVote]),
-        MasterModule
+        MasterModule, SharedModule
     ],
     providers: [
         VoteService,

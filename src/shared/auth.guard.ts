@@ -10,10 +10,6 @@ export class AuthGuard implements CanActivate {
   }
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
-      return true;
-  }
-  /*
-  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
       const req = context.switchToHttp().getRequest();
       let authKey: string = req.headers.authorization;
       if (!authKey) {
@@ -24,5 +20,4 @@ export class AuthGuard implements CanActivate {
   catch (err) {
       return false;
   }
-  */
 }

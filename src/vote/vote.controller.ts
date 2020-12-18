@@ -3,12 +3,15 @@ import { Vote } from "./vote.entity";
 import { VoteService } from "./vote.service";
 import { DeleteResult } from "typeorm";
 import { AuthGuard } from "src/shared/auth.guard";
+import { MasterResult } from "./masterResult";
+import { MemberVoteService } from "./memberVote.service";
 
 @Controller('vote')
 export class VoteController {
     private readonly logger = new Logger(VoteController.name);
 
-    constructor(private readonly voteService: VoteService) {}
+    constructor(private readonly voteService: VoteService,
+        private readonly memberVoteService: MemberVoteService) {}
 
     @Get()
     @UseGuards(AuthGuard)
@@ -26,6 +29,12 @@ export class VoteController {
     @UseGuards(AuthGuard)
     async createVote(@Query('name') name: string): Promise<Vote> {
         return this.voteService.create(name);
+    }
+
+    @Get('/master/:masterId/result')
+    @UseGuards(AuthGuard)
+    async getMasterResultr(@Param('masterId') masterId: number): Promise<MasterResult> {
+        return this.memberVoteService.findResult(masterId);
     }
 
     @Post('/master/:masterId')

@@ -5,6 +5,9 @@ import { Vote } from "./vote.entity";
 import { DeleteResult, Repository } from "typeorm";
 import { MemberVote } from "./memberVote.entity";
 import { MemberVoteResult } from "./memberVoteResult";
+import { MasterResult } from "./masterResult";
+import { Master } from "./../master/master.entity";
+import { MasterService } from "./../master/master.service";
 
 @Injectable()
 export class MemberVoteService {
@@ -13,7 +16,8 @@ export class MemberVoteService {
     constructor(
         @InjectRepository(MemberVote)
         private readonly memberVoteRepository: Repository<MemberVote>,
-        private readonly voteService: VoteService) {
+        private readonly voteService: VoteService,
+        private readonly masterService: MasterService) {
     }
 
     async findAll(): Promise<MemberVote[]> {
@@ -59,6 +63,37 @@ export class MemberVoteService {
             .leftJoin('membervote.vote', 'vote')
             .where('vote.id = :id', { id: voteId})
             .getMany();
+    }
+
+    async findMemberVotesByVotes(votes: Vote[]): Promise<MemberVote[]> {
+        const voteIds: number[] = votes.map(({ id }) => id);
+        return await this.memberVoteRepository
+            .createQueryBuilder('membervote')
+            .leftJoinAndSelect('membervote.member', 'member')
+            .leftJoin('membervote.vote', 'vote')
+            .where('vote.id IN (:voteIds)', { voteIds: voteIds})
+            .orderBy('vote.id')
+            .getMany();
+    }
+
+    async findResult(id: number): Promise<MasterResult> {
+        let masterResult: MasterResult = new MasterResult();
+        const master: Master = await this.masterService.find(id);
+        masterResult.master = master;
+        let memberVoteResults: MemberVoteResult[] = [];
+        const masterMemberVotes: MemberVote[] = await this.findMemberVotesByVotes(master.votes);
+        for (let v of master.votes) {
+            // MemberVotes für diese Vote aus den zuvor geladenen MasterMemberVotes (d.h. alle MemberVotes aller Votes des Masters) filtern
+            let memberVotes: MemberVote[] = masterMemberVotes.filter( memberVote => memberVote.vote.id === v.id );
+            // MemberVoteResult Objekt erzeugen und in Array ablegen
+            let memberVoteResult: MemberVoteResult = new MemberVoteResult();
+            memberVoteResult.vote = v;
+            memberVoteResult.referencePoints = ''; // TODO
+            memberVoteResult.memberVotes = memberVotes;
+            memberVoteResults.push(memberVoteResult);
+        }
+        masterResult.memberVoteResults = memberVoteResults; 
+        return masterResult;
     }
 
     async deleteMemberVotesByVote(voteId: number): Promise<void> {

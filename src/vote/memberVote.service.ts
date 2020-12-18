@@ -70,7 +70,7 @@ export class MemberVoteService {
         return await this.memberVoteRepository
             .createQueryBuilder('membervote')
             .leftJoinAndSelect('membervote.member', 'member')
-            .leftJoin('membervote.vote', 'vote')
+            .leftJoinAndSelect('membervote.vote', 'vote')
             .where('vote.id IN (:voteIds)', { voteIds: voteIds})
             .orderBy('vote.id')
             .getMany();
@@ -82,6 +82,7 @@ export class MemberVoteService {
         masterResult.master = master;
         let memberVoteResults: MemberVoteResult[] = [];
         const masterMemberVotes: MemberVote[] = await this.findMemberVotesByVotes(master.votes);
+        this.logger.log(masterMemberVotes);
         for (let v of master.votes) {
             // MemberVotes für diese Vote aus den zuvor geladenen MasterMemberVotes (d.h. alle MemberVotes aller Votes des Masters) filtern
             let memberVotes: MemberVote[] = masterMemberVotes.filter( memberVote => memberVote.vote.id === v.id );

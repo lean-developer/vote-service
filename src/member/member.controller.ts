@@ -76,9 +76,9 @@ export class MemberController {
        return await this.memberVoteService.saveMemberVote(mv);
     }
 
-    @Patch()
+    @Patch(':memberId')
     @UseGuards(AuthGuard)
-    async updateMember(@Body() member: Member): Promise<Member> {
+    async updateMember(@Param('memberId') memberId: number, @Body() member: Member): Promise<Member> {
         return this.memberService.update(member)
     }
 

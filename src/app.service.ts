@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { WebSocketGateway, WebSocketServer, SubscribeMessage, OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
 
 @WebSocketGateway()
 @Injectable()
 export class AppService implements OnGatewayConnection, OnGatewayDisconnect {
+  private readonly logger = new Logger(AppService.name);
   
      @WebSocketServer()
      private server;
@@ -53,13 +54,13 @@ export class AppService implements OnGatewayConnection, OnGatewayDisconnect {
        client.broadcast.emit('memberVotingEnd', currentMember, currentVote);
      }
  
-     @SubscribeMessage('memberLogin')
-     async onMemberLogin(client, currentMember) {
-       client.broadcast.emit('memberLogin', currentMember);
-     }
- 
-     @SubscribeMessage('memberLogout')
-     async onMemberLogout(client, currentMember) {
-       client.broadcast.emit('memberLogout', currentMember);
+     /**
+      * Messge, wenn MemberState sich ändert, z.B. Member-Login, Member-Logout, etc.
+      * @param client 
+      * @param currentMember 
+      */
+     @SubscribeMessage('memberStateChanged')
+     async onMemberStateChanged(client, currentMember) {
+       client.broadcast.emit('memberStateChanged', currentMember);
      }
 }

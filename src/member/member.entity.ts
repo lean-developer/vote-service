@@ -16,6 +16,9 @@ export class Member {
     @Column({ length: 100 })
     key: string;
 
+    @Column({ length: 100 })
+    state: string;
+
     @ManyToOne( type => Master, master => master.members)
     master: Master;
 

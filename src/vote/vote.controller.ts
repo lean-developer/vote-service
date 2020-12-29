@@ -31,6 +31,12 @@ export class VoteController {
         return this.voteService.create(name);
     }
 
+    @Post(':voteId')
+    @UseGuards(AuthGuard)
+    async saveVoteProduct(@Param('voteId') voteId: number, @Query('prodcut') productId: number): Promise<Vote> {
+        return this.voteService.saveVoteProduct(voteId, productId);
+    }
+
     @Get('/master/:masterId/result')
     @UseGuards(AuthGuard)
     async getMasterResultr(@Param('masterId') masterId: number): Promise<MasterResult> {

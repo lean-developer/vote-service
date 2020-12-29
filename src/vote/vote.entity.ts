@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany, BeforeUpdate, BeforeInsert, ManyToOne } from 'typeorm';
 import { MemberVote } from './memberVote.entity';
 import { Master } from 'src/master/master.entity';
+import { Product } from './product.entity';
 
 @Entity('vote')
 export class Vote {
@@ -53,6 +54,9 @@ export class Vote {
 
     @ManyToOne( type => Master, master => master.votes)
     master: Master;
+
+    @Column()
+    productId: number;
 
     @OneToMany(type => MemberVote, membervote => membervote.member)
     membervotes: MemberVote[];

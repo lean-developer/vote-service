@@ -9,6 +9,7 @@ import { MemberModule } from './member/member.module';
 import { MemberVote } from './vote/memberVote.entity';
 import { AppService } from './app.service';
 import { SharedModule } from './shared/shared.module';
+import { Product } from './vote/product.entity';
 // tslint:disable-next-line: no-var-requires
 const dotenv = require('dotenv').config();
 
@@ -21,7 +22,7 @@ const dotenv = require('dotenv').config();
       username: process.env.DB_USER,
       password: process.env.DB_PW,
       database: process.env.DB_NAME,
-      entities: [Vote, Master, Member, MemberVote],
+      entities: [Vote, Master, Member, MemberVote, Product],
       synchronize: true,
     }),
     VoteModule,

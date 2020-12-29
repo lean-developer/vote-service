@@ -4,6 +4,8 @@ import { Repository, DeleteResult } from "typeorm";
 import { Vote } from "./vote.entity";
 import { MasterService } from "src/master/master.service";
 import { Master } from "src/master/master.entity";
+import { ProductService } from "./product.service";
+import { Product } from "./product.entity";
 
 @Injectable()
 export class VoteService {
@@ -12,7 +14,8 @@ export class VoteService {
     constructor(
         @InjectRepository(Vote)
         private readonly voteRepository: Repository<Vote>,
-        private readonly masterService: MasterService) {
+        private readonly masterService: MasterService,
+        private readonly productService: ProductService) {
     }
 
     async findAll(): Promise<Vote[]> {
@@ -34,6 +37,13 @@ export class VoteService {
         const vote: Vote = new Vote();
         vote.name = name;
         vote.master = master;
+        return await this.voteRepository.save(vote);
+    }
+
+    async saveVoteProduct(voteId: number, productId: number) {
+        const vote: Vote = await this.find(voteId);
+        const product: Product = await this.productService.find(productId);
+        vote.productId = product.id;
         return await this.voteRepository.save(vote);
     }
 

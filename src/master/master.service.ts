@@ -13,11 +13,11 @@ export class MasterService {
     }
 
     async findAll(): Promise<Master[]> {
-        return await this.masterRepository.find({ relations: ['members', 'votes'] });
+        return await this.masterRepository.find({ relations: ['members', 'votes', 'products'] });
     }
 
     async find(id: number): Promise<Master> {
-        return await this.masterRepository.findOne(id, ({ relations: ['members', 'votes'] }));
+        return await this.masterRepository.findOne(id, ({ relations: ['members', 'votes', 'products'] }));
     }
 
     async findByUid(uid: string): Promise<Master> {
@@ -25,6 +25,7 @@ export class MasterService {
             .createQueryBuilder('master')
             .leftJoinAndSelect('master.members', 'members')
             .leftJoinAndSelect('master.votes', 'votes')
+            .leftJoinAndSelect('master.products', 'products')
             .where('master.uid = :uid', { uid: uid})
             .getOne()
     }
